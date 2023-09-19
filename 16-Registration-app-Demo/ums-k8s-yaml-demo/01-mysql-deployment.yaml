@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: mysql
+  labels: 
+    app: mysql
+    tier: backend
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+
+  template:
+    metadata:
+      name: mysql
+      labels: # DICTIONARY
+        app: mysql
+    spec:
+      containers: 
+        - name: mysql
+          image: mysql:5.6
+          ports: 
+            - containerPort: 3306
+          env: 
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: password
+          volumeMounts:
+            - name: mysql-dbcreation-script
+              mountPath: /docker-entrypoint-initdb.d  
+
+      volumes:
+        # - name:  mysql-dbcreation-script
+        #   persistentVolumeClaim:
+        #     claimName: ebs-mysql-volume
+        - name:  mysql-dbcreation-script
+          configMap:  
+            name: mysql-dbcreation-script      
+            

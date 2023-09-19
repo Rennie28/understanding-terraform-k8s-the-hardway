@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: my-registration-app 
+  labels: 
+    app: registration-app
+    tier: front-end
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: registration-app
+  template:
+    metadata:
+      name: registration-app
+      labels: # DICTIONARY
+        app: registration-app
+    spec:
+      containers: 
+        - name: registration-app 
+          image: rsakyi27/rennietechs-registration-app:v1.0.0
+          ports: 
+            - containerPort: 8080
+          env: 
+            - name: DB_HOSTNAME
+              value: "mysql-dbendpoint"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_NAME
+              value: "webappdb" # MANDATORY
+            - name: DB_USERNAME
+              value: "root"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: password
