@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: myapp-nodeport-service 
+
+spec:
+  type: NodePort # LoadBalancer, External
+  selector:
+    app: myapp
+  ports:
+    - name: http
+      port: 80 # Service port 
+      targetPort: 80 # Container port
+      # nodePort: 
+
