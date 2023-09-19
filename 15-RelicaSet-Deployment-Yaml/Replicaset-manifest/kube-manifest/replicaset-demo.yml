@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+ name: my-helloword-rs
+ labels:
+  app: my-helloworld
+
+
+spec:  
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      name: myapp-pod
+      labels: #dictionary
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: rsakyi27/rennietechs-app:v1.0.0
+          ports:
+            - containerPort: 80

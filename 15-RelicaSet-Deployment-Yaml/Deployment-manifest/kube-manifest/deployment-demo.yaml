@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-helloword-deployment
+  labels:
+    app: my-helloword
+    tier: frontend
+    
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+     app: myapp 
+  template: 
+    metadata:
+      name: myapp-pod 
+      labels: # DICTIONARY
+        app: myapp
+    spec:
+      containers: 
+        - name: myapp 
+          image: rsakyi27/rennietechs-app2:v1.0.0
+          ports: 
+            - containerPort: 80     
